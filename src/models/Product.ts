@@ -1,7 +1,18 @@
-import { Schema, model } from "mongoose";
+import { Document, Schema, model } from "mongoose";
+
+export interface IProduct extends Document{
+    name: string,
+    category: string,
+    price: number,
+    imgUrl: string
+}
 
 const productSchema = new Schema({
-    name: String,
+    name: {
+        type: String,
+        require: true,
+        min: 4
+    },
     category: String,
     price: Number,
     imgUrl: String
@@ -10,4 +21,4 @@ const productSchema = new Schema({
     versionKey: false,
 });
 
-export default model("Product", productSchema);
+export default model<IProduct>("Product", productSchema);
