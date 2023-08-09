@@ -1,5 +1,6 @@
 import express, { Application } from "express";
 import authRoutes from "./routes/auth.routes";
+import userRoutes from "./routes/user.routes";
 import productsRoutes from "./routes/products.routes";
 import morgan from "morgan";
 import { createRoles } from "./libs/initialSetup";
@@ -12,6 +13,7 @@ app.set("port", 4000);
 
 //routes
 app.use('/api/products', productsRoutes);
+app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 
 export default app; 
