@@ -1,11 +1,11 @@
 import { Document, ObjectId, Schema, Types, model } from "mongoose";
 import bcrypt from "bcryptjs";
 
-export interface IUser extends Document<ObjectId>{
+export interface IUser extends Document<Types.ObjectId>{
     username: string;
     email: string;
     password: string;
-    roles: ObjectId[];
+    roles?: Types.ObjectId[];
     encryptPassword(password:string):Promise<string>,
     comparePassword(password:string, receivedPassword:string): Promise<boolean>,
 }
@@ -32,12 +32,12 @@ const userSchema = new Schema({
     versionKey: false
 });
 
-userSchema.methods.encryptPassword = async (password: string) => {
+userSchema.methods.encryptPassword = async (password: string): Promise<string> => {
     const salt = await bcrypt.genSalt(10);
     return await bcrypt.hash(password, salt);
 }
 
-userSchema.methods.comparePassword = async (password:string, receivedPassword:string) => {
+userSchema.methods.comparePassword = async (password:string, receivedPassword:string): Promise<boolean> => {
     return await bcrypt.compare(password,receivedPassword);
 }
 

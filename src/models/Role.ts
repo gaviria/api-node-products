@@ -1,4 +1,10 @@
-import { Schema, model } from "mongoose";
+import { Document, ObjectId, Schema, model } from "mongoose";
+
+export interface IRole {
+    name: string;
+}
+
+export const ROLES = ["user", "admin", "moderator"];
 
 const roleSchema = new Schema({
     name: String
@@ -6,4 +12,4 @@ const roleSchema = new Schema({
     versionKey: false
 });
 
-export default model("Role", roleSchema);
+export default model<IRole>("Role", roleSchema);
