@@ -66,7 +66,7 @@ export const signIn = async (req: Request, res: Response) => {
 	);
 
 	res.header("auth-token", token).json({
-		message: "Login sucessfull",
+		message: "Login successful",
 		data: userFound,
 	});
 };
