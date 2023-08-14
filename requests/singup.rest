@@ -1,0 +1,9 @@
+post http://localhost:4000/api/auth/signup
+Content-Type: application/json
+
+{
+    "username": "user1",
+    "email": "a@1.com",
+    "password": "1234",
+    "roles": ["user"]
+}

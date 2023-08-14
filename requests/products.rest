@@ -1,0 +1,37 @@
+GET http://localhost:4000/api/products
+
+###
+# @name get product by id
+GET http://localhost:4000/api/products/12
+
+###
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZDI5ZjhhNWU5ZWQ3NTMxY2M5OGRlNyIsImlhdCI6MTY5MjA0NjQwMCwiZXhwIjoxNjkyMTMyODAwfQ.eHUm9dwTpj8Oo2qtXVjWsk16bCZM_m-BwgElnCahU6U
+#@name Crate product
+POST http://localhost:4000/api/products
+Content-Type: application/json
+auth-token: {{authToken}}
+
+
+{
+    "name": "Laptop racer 45",
+    "category": "laptops",
+    "price": 999,
+    "imgUrl": "https://elpuntodelaimpresora.com/wp-content/uploads/2022/12/LENOVO-V14R5.gif"
+}
+
+###
+#@name Update product by id
+PUT http://localhost:4000/api/products/64da9521bdd4fcfaceb959da
+Content-Type: application/json
+auth-token: {{authToken}}
+
+{
+    "name": "Laptop racer 22"
+}
+
+###
+#@name Delete product by id
+DELETE http://localhost:4000/api/products/64cc849a0e0bf0841ad7ee30
+Content-Type: application/json
+auth-token: {{authToken}}
+
