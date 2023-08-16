@@ -58,16 +58,37 @@ export const signIn = async (req: Request, res: Response) => {
 		return res.status(400).json({ message: "Invalid Credentials" });
 	}
 
+	/**
+	 * Token
+	 * exp: 23h
+	 */
 	const token: string = jwt.sign(
 		{ id: userFound._id },
 		process.env.SECRET_JWT!,
 		{
-			expiresIn: 86400, //24 hours
+			expiresIn: "23h",
 		},
 	);
 
-	res.header("auth-token", token).json({
+	/**
+	 * token serialized in cookie
+	 * exp: 24h
+	 */
+	const serialized = serialize("myTokenProduct", token, {
+		httpOnly: true,
+		secure: process.env.NODE_ENV === "production",
+		sameSite: "strict",
+		maxAge: 86400,
+		path: "/",
+	});
+
+	res.setHeader("Set-Cookie", serialized).json({
 		message: "Login successful",
 		data: userFound,
 	});
+
+	// res.header("auth-token", token).json({
+	// 	message: "Login successful",
+	// 	data: userFound,
+	// });
 };

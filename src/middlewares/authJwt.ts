@@ -2,12 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import User from "../models/User";
 import Role from "../models/Role";
-
-interface IPayload {
-	_id: string;
-	iat: number;
-	exp: number;
-}
+import cookie from "cookie";
 
 export const verifyToken = async (
 	req: Request,
@@ -16,7 +11,9 @@ export const verifyToken = async (
 ) => {
 	try {
 		//const token = req.header("auth-token");
-		const token: any = req.headers["auth-token"];
+		//const token: any = req.headers["auth-token"];
+		const cookies = cookie.parse(req.headers.cookie || "");
+		const token: string = cookies.myTokenProduct;
 
 		if (!token)
 			return res.status(403).json({ message: "No token provided" });
@@ -45,7 +42,9 @@ export const isModerator = async (
 ) => {
 	const user = await User.findById(req.userId);
 	const roles = await Role.find({ _id: { $in: user?.roles } });
-	const isModerator: boolean = roles.some((role) => role.name === "admin");
+	const isModerator: boolean = roles.some(
+		(role) => role.name === "moderator",
+	);
 
 	if (!isModerator) return res.status(403).json({ message: "Access Denied" });
 
@@ -59,7 +58,7 @@ export const isAdmin = async (
 ) => {
 	const user = await User.findById(req.userId);
 	const roles = await Role.find({ _id: { $in: user?.roles } });
-	const isAdmin: boolean = roles.some((role) => role.name === "moderator");
+	const isAdmin: boolean = roles.some((role) => role.name === "admin");
 
 	if (!isAdmin) return res.status(403).json({ message: "Access Denied" });
 
