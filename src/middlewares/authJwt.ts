@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import User from "../models/User";
-import Role, { IRole } from "../models/Role";
+import Role from "../models/Role";
 
 interface IPayload {
 	_id: string;

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import User, { IUser } from "../models/User";
 import jwt from "jsonwebtoken";
+import { serialize } from "cookie";
 import Role from "../models/Role";
 
 export const signUp = async (req: Request, res: Response) => {
@@ -25,7 +26,7 @@ export const signUp = async (req: Request, res: Response) => {
 	const savedUser = await newUser.save();
 	const token: string = jwt.sign(
 		{ id: savedUser._id },
-		process.env.SECRET_JWT || "",
+		process.env.SECRET_JWT!,
 		{
 			expiresIn: 86400, //24 hours
 		},
@@ -45,7 +46,7 @@ export const signIn = async (req: Request, res: Response) => {
 	);
 
 	if (!userFound) {
-		return res.status(400).json({ message: "User not found" });
+		return res.status(400).json({ message: "Invalid Credentials" });
 	}
 
 	const matchPassword: boolean = await userFound.comparePassword(
@@ -54,12 +55,12 @@ export const signIn = async (req: Request, res: Response) => {
 	);
 
 	if (!matchPassword) {
-		return res.status(400).json({ message: "Invalid password" });
+		return res.status(400).json({ message: "Invalid Credentials" });
 	}
 
 	const token: string = jwt.sign(
 		{ id: userFound._id },
-		process.env.SECRET_JWT || "",
+		process.env.SECRET_JWT!,
 		{
 			expiresIn: 86400, //24 hours
 		},
