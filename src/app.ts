@@ -6,14 +6,14 @@ import morgan from "morgan";
 import { createRoles } from "./libs/initialSetup";
 
 const app: Application = express();
-createRoles();//Create Roles in database
-app.use(morgan('dev')); //log for request
+createRoles(); //Create Roles in database
+app.use(morgan("dev")); //log for request
 app.use(express.json());
 app.set("port", 4000);
 
 //routes
-app.use('/api/products', productsRoutes);
-app.use('/api/user', userRoutes);
-app.use('/api/auth', authRoutes);
+app.use("/api/products", productsRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/auth", authRoutes);
 
-export default app; 
+export default app;

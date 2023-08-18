@@ -76,7 +76,7 @@ export const signIn = async (req: Request, res: Response) => {
 	 */
 	const serialized = serialize("myTokenProduct", token, {
 		httpOnly: true,
-		secure: process.env.NODE_ENV === "production",
+		secure: process.env.NODE_ENV === "prod",
 		sameSite: "strict",
 		maxAge: 86400,
 		path: "/",
